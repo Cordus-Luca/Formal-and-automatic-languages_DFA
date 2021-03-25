@@ -60,7 +60,7 @@ int main()
                     if(int(p->first[0]-48)==int(v) and char(p->second[0])==cuv[c])
                     {
                         ok=1;
-                        c++;///cout<<"test "<<p->first;
+                        c++;
                         traseu.push(int(p->first[2]-48));
                         v=int(p->first[2]-48);
                     }
