@@ -1,0 +1,94 @@
+#include <iostream>
+#include <fstream>
+#include <unordered_map>
+#include <vector>
+#include <queue>
+#include <cstring>
+#include <string>
+using namespace std;
+ifstream in("date.in");
+ofstream out("date.out");
+int main()
+{
+    unordered_map<string,string> rel;
+    int nr_stari,nr_rel,init,i,nr_fin,nr_cuv;
+    vector <int> fin;
+    string cuv, relatie,a,b,c;
+    in>>nr_stari>>nr_rel;
+    int matr[nr_stari+1][nr_stari+1]= {};
+    for(i=1; i<=nr_rel; i++)
+    {
+        in>>a>>b>>c;
+        rel[a+" "+b]=c;
+    }
+    in>>init>>nr_fin;
+    for(i=1; i<=nr_fin; i++)
+    {
+        int x;
+        in>>x;
+        fin.push_back(x);
+    }
+    in>>nr_cuv;
+    for(i=1; i<=nr_cuv; i++)
+    {
+        queue<int> traseu;
+        in>>cuv;
+        unordered_map<string, string>:: iterator p;
+        int ok=0;
+        for (p = rel.begin(); p != rel.end(); p++)
+        {
+            if((int(p->first[0])-48)==init and char(p->second[0])==cuv[0])
+                ok=1;
+        }
+        if(ok==0)
+        {
+            out<<"NU"<<'\n';
+        }
+        else
+        {
+
+            int k=0,c=0;
+            traseu.push(init);
+            int v=traseu.front();
+            while(traseu.size()<=cuv.size()+1)
+            {
+                int ok=0;
+                for (p = rel.begin(); p != rel.end();  p++)
+                {
+                    k++;
+                    ///int v=traseu.front();
+                    if(int(p->first[0]-48)==int(v) and char(p->second[0])==cuv[c])
+                    {
+                        ok=1;
+                        c++;///cout<<"test "<<p->first;
+                        traseu.push(int(p->first[2]-48));
+                        v=int(p->first[2]-48);
+                    }
+                }
+                if(ok==0)
+                    break;
+
+            }
+            for(int i=0; i<fin.size(); i++)
+            {
+                if(fin[i]==v)
+                {
+                    out<<"DA"<<'\n';
+                    out<<"Traseu: ";
+                    while (!traseu.empty())
+                    {
+                        out << traseu.front()<<' ';
+                        traseu.pop();
+                    }
+                    out<<endl;
+                    break;
+                }
+                else
+                {
+                    out<<"NU"<<'\n';
+                }
+            }
+        }
+    }
+    return 0;
+}
