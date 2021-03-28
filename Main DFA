@@ -10,82 +10,83 @@ ifstream in("date.in");
 ofstream out("date.out");
 int main()
 {
-    unordered_map<string,string> rel;
-    int nr_stari,nr_rel,init,i,nr_fin,nr_cuv;
-    vector <int> fin;
-    string cuv, relatie,a,b,c;
-    in>>nr_stari>>nr_rel;
-    int matr[nr_stari+1][nr_stari+1]= {};
-    for(i=1; i<=nr_rel; i++)
+    unordered_map <string,string> relatii;
+    int nr_stari, nr_relatii, stare_initiala, i, nr_stari_finale, nr_cuvinte;
+    vector <int> stari_finale;
+    string cuvant, relatie, q1, q2, litera;
+    in >> nr_stari >> nr_relatii;
+
+    for (i = 1; i <= nr_relatii; i++)
     {
-        in>>a>>b>>c;
-        rel[a+" "+b]=c;
+        in >> q1 >> q2 >> litera;
+        relatii[q1 + " " + q2] = litera;
     }
-    in>>init>>nr_fin;
-    for(i=1; i<=nr_fin; i++)
+
+    in >> stare_initiala >> nr_stari_finale;
+
+    for (i = 1; i <= nr_stari_finale; i++)
     {
         int x;
-        in>>x;
-        fin.push_back(x);
+        in >> x;
+        stari_finale.push_back(x);
     }
-    in>>nr_cuv;
-    for(i=1; i<=nr_cuv; i++)
+
+    in >> nr_cuvinte;
+
+    for (i = 1; i <= nr_cuvinte; i++)
     {
         queue<int> traseu;
-        in>>cuv;
+        in >> cuvant;
         unordered_map<string, string>:: iterator p;
-        int ok=0;
-        for (p = rel.begin(); p != rel.end(); p++)
+        int ok = 0;
+        for (p = relatii.begin(); p != relatii.end(); p++)
         {
-            if((int(p->first[0])-48)==init and char(p->second[0])==cuv[0])
-                ok=1;
+            if((int(p->first[0]) - 48) == stare_initiala and char(p->second[0]) == cuvant[0])
+                ok = 1;
         }
-        if(ok==0)
+        if (ok == 0)
         {
-            out<<"NU"<<'\n';
+            out << "NU" << '\n';
         }
         else
         {
 
-            int k=0,c=0;
-            traseu.push(init);
-            int v=traseu.front();
-            while(traseu.size()<=cuv.size()+1)
+            int nr_litera = 0;
+            traseu.push(stare_initiala);
+            int v = traseu.front();
+            while (traseu.size() <= cuvant.size() + 1)
             {
-                int ok=0;
-                for (p = rel.begin(); p != rel.end();  p++)
+                int ok = 0;
+                for (p = relatii.begin(); p != relatii.end();  p++)
                 {
-                    k++;
-                    ///int v=traseu.front();
-                    if(int(p->first[0]-48)==int(v) and char(p->second[0])==cuv[c])
+                    if (int(p->first[0] - 48) == int(v) and char(p->second[0]) == cuvant[nr_litera])
                     {
-                        ok=1;
-                        c++;
-                        traseu.push(int(p->first[2]-48));
-                        v=int(p->first[2]-48);
+                        ok = 1;
+                        nr_litera++;
+                        traseu.push(int(p->first[2] - 48));
+                        v = int(p->first[2] - 48);
                     }
                 }
-                if(ok==0)
+                if (ok == 0)
                     break;
-
             }
-            for(int i=0; i<fin.size(); i++)
+            for (int i = 0; i < stari_finale.size(); i++)
             {
-                if(fin[i]==v)
+                if (stari_finale[i] == v and traseu.size() == cuvant.size()+1)
                 {
-                    out<<"DA"<<'\n';
-                    out<<"Traseu: ";
+                    out << "DA" << '\n';
+                    out << "Traseu: ";
                     while (!traseu.empty())
                     {
-                        out << traseu.front()<<' ';
+                        out << traseu.front() << ' ';
                         traseu.pop();
                     }
-                    out<<endl;
+                    out << endl;
                     break;
                 }
                 else
                 {
-                    out<<"NU"<<'\n';
+                    out << "NU" << '\n';
                 }
             }
         }
