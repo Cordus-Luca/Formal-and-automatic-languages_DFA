@@ -1,3 +1,3 @@
-# Proiect-Laborator-Lfa-1
-Am incercat sa fac NFA, dar nu am reusit.
-Am facut DFA in schimb.
+# DFA Transformation
+
+Given a graph, and words, this algorithm test if said words can be made using the graph and if they can, it shows how.
